@@ -7,3 +7,5 @@ build-local.properties
 src/resources-local/
 tmp
 *~
+
+*.bak

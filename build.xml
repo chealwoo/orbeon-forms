@@ -844,14 +844,18 @@
             <isset property="skip.compilation"/>
             <then>
                 <!-- This does in fact compile Scala.js files, but does not run the expensive optimizations -->
-                <exec executable="sbt">
-                    <arg value="project formBuilder"/>
+                <exec executable="cmd">
+                    <arg value="/c"/>
+                    <arg value="sbt.bat"/>
+					<arg value="project formBuilder"/>
                     <arg value="fastOptJSToExplodedWar"/>
                 </exec>
             </then>
             <else>
-                <exec executable="sbt">
-                    <arg value="project formBuilder"/>
+                <exec executable="cmd">
+                    <arg value="/c"/>
+                    <arg value="sbt.bat"/>
+					<arg value="project formBuilder"/>
                     <arg value="fullOptJSToExplodedWar"/>
                 </exec>
             </else>

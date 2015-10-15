@@ -97,6 +97,28 @@ You usually don't have to compile Orbeon Forms yourself. But if you want to, see
 [Building Orbeon Forms](https://github.com/orbeon/orbeon-forms/wiki/Contributors-~-Building-Orbeon-Forms).
 The source code is available on [github](https://github.com/orbeon/orbeon-forms/).
 
+<DLEE Added>
+Check http://discuss.orbeon.com/Last-version-without-Scala-td4660374.html for compile error on 4.10.
+build.xml and build.sbt files are modified.
+For IntelliJ, 
+This AFAIK is a bug in IntelliJ's sbt support. It keeps rewriting .idea/scala-compiler.xml to contain the following: 
+    <profile name="SBT 2" modules="core" />
+    <profile name="SBT 2" modules="formBuilder">
+      <plugins>
+        <plugin path="$USER_HOME$/.ivy2/cache/org.scala-js/scalajs-compiler_2.11.7/jars/scalajs-compiler_2.11.7-0.6.4.jar" />
+      </plugins>
+    </profile>
+
+and it should be: 
+
+    <profile name="SBT 1" modules="core" />
+    <profile name="SBT 2" modules="formBuilder">
+      <plugins>
+        <plugin path="$USER_HOME$/.ivy2/cache/org.scala-js/scalajs-compiler_2.11.7/jars/scalajs-compiler_2.11.7-0.6.4.jar" />
+      </plugins>
+    </profile>
+</DLEE Added>
+
 Orbeon Forms is written mainly using the following languages and technologies:
 
 - Java
