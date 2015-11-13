@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DependencyValidationManager">
-    <scope name="IntelliJ project files" pattern="file[Orbeon Forms]:.idea//*" />
-    <scope name="Source files" pattern="(file[Orbeon Forms]:test/src//*||file[Orbeon Forms]:src//*)&amp;&amp;!file[Orbeon Forms]:src/resources/apps/xforms-sandbox/samples//*&amp;&amp;!file[Orbeon Forms]:src/resources-packaged/ops/xforms/schema/*" />
-    <scope name="Samples" pattern="file[Orbeon Forms]:src/resources/apps/xforms-sandbox/samples/*" />
-    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
-  </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
       <facet-type id="web">
@@ -33,6 +27,32 @@
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
+  <component name="MavenBuildProjectComponent">
+    <option name="mavenExecutable" value="" />
+    <option name="Settings File" value="C:\Users\dlee\.m2\settings.xml" />
+    <option name="mavenCommandLineParams" value="" />
+    <option name="vmOptions" value="" />
+    <option name="useMavenEmbedder" value="false" />
+    <option name="useFilter" value="false" />
+    <option name="Batch Mode" value="false" />
+    <option name="Check Plugin Updates" value="false" />
+    <option name="Debug" value="false" />
+    <option name="Errors" value="false" />
+    <option name="Fail At End" value="false" />
+    <option name="Fail Fast" value="false" />
+    <option name="Fail Never" value="false" />
+    <option name="Lax Checksums" value="false" />
+    <option name="No Plugin Registry" value="false" />
+    <option name="No Plugin Updates" value="false" />
+    <option name="Non Recursive" value="false" />
+    <option name="Offline" value="false" />
+    <option name="Reactor" value="false" />
+    <option name="Strict Checksums" value="false" />
+    <option name="Update Plugins" value="false" />
+    <option name="Update Snapshots" value="false" />
+    <option name="Skip Tests" value="false" />
+    <pom-list />
+  </component>
   <component name="ProjectDetails">
     <option name="projectName" value="Orbeon" />
   </component>
@@ -44,4 +64,3 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
-
