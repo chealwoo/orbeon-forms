@@ -142,7 +142,7 @@
             Suffix CE or PE is separate from the version number.
          -->
         <property name="version.number" value="3.8.0"/>
-        <property name="edition" value="PE"/>
+        <property name="edition" value="CE"/>
         <!-- Can be overridden on command-line to provide different suffix -->
         <property name="artifact.suffix" value="-${edition}"/>
         <property name="version.suffix" value=""/>
@@ -615,6 +615,8 @@
 
     <target name="orbeon-minify-one-js" unless="min.uptodate">
         <java classname="com.yahoo.platform.yui.compressor.YUICompressor" classpath="${lib.dir}/yuicompressor-2.4.1.jar" fork="false" failonerror="true">
+            <arg value="--nomunge"/>
+            <arg value="--disable-optimizations"/>
             <arg value="${resources-packaged.dir}/ops/${name}.js"/>
             <arg value="-o"/>
             <arg value="${war.dir}/WEB-INF/resources/ops/${name}-min.js"/>
