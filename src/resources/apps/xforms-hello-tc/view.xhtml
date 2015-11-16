@@ -1,0 +1,154 @@
+<!--
+    Copyright (C) 2004 Orbeon, Inc.
+
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU Lesser General Public License as published by the Free Software Foundation; either version
+    2.1 of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License for more details.
+
+    The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+-->
+<xhtml:html xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      xmlns:xforms="http://www.w3.org/2002/xforms"
+      xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+      xmlns:ev="http://www.w3.org/2001/xml-events"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:fr="http://orbeon.org/oxf/xml/form-runner">
+    <xhtml:head>
+        <xhtml:title>XForms Hello</xhtml:title>
+        <xforms:model>
+            <xforms:instance>
+                <first-name xmlns=""/>
+            </xforms:instance>
+
+			<xforms:bind ref="first-name" required="true()"/>
+			
+			<!-- -->
+			<xforms:submission id="view" action="/inq/view" ref="instance('decisionTree')" method="post" replace="all">
+				<xforms:action ev:event="xforms-submit-error">
+					<xxforms:script>
+						alert('submition hello');
+					</xxforms:script>
+				</xforms:action>
+			</xforms:submission>
+
+			<xforms:action ev:event="xforms-ready">
+				<!-- Set initial focus 
+				<xforms:setfocus control="my-name"/> -->
+				<!-- Make sure we look clean after initialization -->
+				<xforms:refresh/>
+				<xxforms:script>
+//					alert('ready hello');
+					setTimeout(function() { ORBEON.xforms.Controls.setFocus("my-name"); }, 100);
+				</xxforms:script>
+				<!-- xforms:setvalue ref="xxforms:instance('control-instance')/data-status"/ -->
+			</xforms:action>
+        </xforms:model>
+
+		<!-- 
+		<xforms:action ev:event="xxforms-ready">
+			<xforms:setfocus control="name-input"/>
+		</xforms:action>
+		<xforms:action ev:event="xforms-ready">
+			<xxforms:script>
+				alert('ready hello');
+			</xxforms:script>
+		</xforms:action>
+		<xforms:setfocus ev:event="xforms-ready" control="my-name"/>
+		-->
+
+  <xhtml:style type="text/css">
+  .xforms-textarea-appearance-xxforms-autosize, .xforms-textarea-appearance-xxforms-autosize textarea { width:20em; margin-bottom:2px; }
+  .xforms-input input { font-size:12px; width: 86%; margin-bottom:2px; float:left; }
+  .xforms-textarea, .xforms-textarea textarea { font-size:12px; float:left; width:86%; height:60px; resize: none; }
+  .xforms-select1-appearance-minimal { width:86%; *width:89%; float:left; }
+  .xforms-loading-loading { opacity:0.01; filter:alpha(opacity=1); display:none; visibility:hidden; }
+  .xforms-alert-active { float:right; }
+  .xforms-error-panel { overflow: scroll; height:100px }
+  .label { display:-moz-inline-box; display:inline-block; width:expression('9em'); min-width:9em; }
+
+  .table { margin-bottom:10px; width:100%; padding-top:0px; padding-left:0px; padding-right:0px; }
+  .table td { vertical-align:middle; padding-right:0px; }
+  .table .xforms-submit img { vertical-align:middle; }
+  .table .xforms-trigger img, .books-action-table .xforms-submit img { margin-right:5px; vertical-align:middle; }
+  .table .xforms-trigger span, .books-action-table .xforms-submit span { vertical-align:middle; }
+
+  .table tr.row1 td { background-color:#D6DBDE; }
+  .table tr.row2 td { background-color:#E6E9EB; }
+  .table td.td1 { width:35%; }
+  .table td.td2 { width:65%; }
+
+  body      { font-family:arial; font-size:12px; padding:0px; margin:1px; *margin-top:-2px; _margin-top:-14px; }
+  a:link    { color:#0000FF; }
+  a:visited { color:#0000FF; }
+  a:hover   { color:#0000FF; }
+  a:active  { color:#0000FF; }
+ 
+  .xforms-trigger {
+    background: url("https://mediav3.inq.com/media/sites/10003715/flash/BestBrands_Prechat_Routing/button_overlay.png") repeat-x scroll 0 0 #ADE400;
+    border-radius: 5px 5px 5px 5px;
+    border-style: none;
+    bottom: 15px;
+    right: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font: bold 13px "Helvetica Neue",Helvetica,Arial,clean,sans-serif !important;
+    overflow: visible;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    _background-image: none;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    _zoom: 1;
+  }
+   
+  .xforms-trigger:hover, .xforms-trigger:focus {
+    background-position: 0 -50px;
+    color: black;
+  }
+   
+  .xforms-trigger:active {
+    background-position: 0 -100px;
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
+    -webkit-box-shadow: none;
+  }
+  </xhtml:style>
+    </xhtml:head>
+    <xhtml:body>
+        <xhtml:p>
+            <xhtml:i>This example is described in details in the <xhtml:a href="/doc/intro-tutorial">Orbeon Forms Tutorial</xhtml:a>.</xhtml:i>
+        </xhtml:p>
+        <xhtml:p>
+            <xforms:input ref="/first-name" incremental="true" id="my-name">
+                <xforms:label>Please enter your first name:</xforms:label>
+				<xforms:alert>Name is required.</xforms:alert>
+            </xforms:input>
+        </xhtml:p>
+        <xhtml:p>
+            <xforms:output value="if (normalize-space(/first-name) = '') then '' else concat('Hello, ', /first-name, '!')"/>
+        </xhtml:p>
+
+
+		  <xhtml:div style="margin-left: 10px;">
+			<xforms:group>
+			  <xforms:trigger>
+				<xforms:label>Submit</xforms:label>
+				<xforms:action ev:event="DOMActivate">
+				  <xforms:setvalue ref="instance('decisionTree')/triggeredEvent">submit</xforms:setvalue>
+				  <xforms:send submission="view"/>
+				</xforms:action>
+			  </xforms:trigger>
+			</xforms:group>
+		  </xhtml:div>
+    </xhtml:body>
+</xhtml:html>
