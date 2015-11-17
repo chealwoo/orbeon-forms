@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xhtml:html xmlns:xhtml="http://www.w3.org/1999/xhtml" 
+xmlns:ev="http://www.w3.org/2001/xml-events" 
+xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" 
+xmlns:xforms="http://www.w3.org/2002/xforms">
+<xhtml:head>
+  <xhtml:title>BestBrands Prechat Questions</xhtml:title>
+  
+  <xforms:model id="main-model">
+    <xforms:instance id="decisionTree">
+      <decisionTree xmlns="">
+        <question_answer id="name">
+          <question>Name: </question>
+          <answer />
+        </question_answer>
+        <question_answer id="accountNumber">
+          <question>Account Number: </question>
+          <answer />
+        </question_answer>
+        <question_answer id="phoneNumber">
+          <question>Phone Number: </question>
+          <answer />
+        </question_answer>
+        <question_answer id="contactMethod">
+          <question>Preferred Contact Method: </question>
+          <answer />
+        </question_answer>
+        <question_answer id="comments">
+          <question>Comments: </question>  
+          <answer />
+        </question_answer>
+      </decisionTree>
+    </xforms:instance>
+    
+    <xforms:bind nodeset="instance('decisionTree')">
+      <xforms:bind nodeset="question_answer[@id='name']/answer" required="true()"/>
+      <xforms:bind nodeset="question_answer[@id='accountNumber']/answer" required="true()"/>
+      <xforms:bind nodeset="question_answer[@id='phoneNumber']/answer" required="true()"/>
+      <xforms:bind nodeset="question_answer[@id='contactMethod']/answer" required="true()"/>
+    </xforms:bind>
+    
+    <xforms:submission id="view" action="/inq/view" ref="instance('decisionTree')" method="post" replace="all">
+		<xforms:action ev:event="xforms-submit-error">
+			<xxforms:script>
+				var fElement, fELabel, aSpan; 
+				fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0)
+				// fElement = ORBEON.util.Dom.getElementById("name-input");
+				if (fElement.value === "") {
+					fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById("name-input"), "label");
+					aSpan = document.createElement('span');
+					aSpan.innerHTML = "This is required"
+					fELabel.appendChild(aSpan);
+					fElement.focus();
+					addEvnListener(fElement, "change", inputUpdatedHandler);
+					return;
+				}
+
+				// fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("tc-select"), 0);
+				fElement = ORBEON.util.Dom.getElementById('tc-select');
+				if (fElement.value === "") {
+					fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById('tc-select'), "label");
+					aSpan = document.createElement('span');
+					aSpan.innerHTML = "This is required"
+					fELabel.appendChild(aSpan);
+					// fElement.parentElement.focus();
+					fElement.focus();
+					addEvnListener(fElement, "change", inputUpdatedHandler);
+					return;
+				}
+
+				function inputUpdatedHandler(evt) {
+					var i;
+					var evtElement = evt.target;
+					var elId = evtElement.id;
+					if (elId.indexOf('$') != -1) {
+						elId = evtElement.id.substring( 0, elId.indexOf('$') );
+					}
+					var evtLabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById(elId), "label");
+					var spans = evtLabel.getElementsByTagName('span');
+					/*spans.foreach(function(el, ind, array) {
+						evtLabel.removeChild(el);
+					});*/
+					evtLabel.removeChild(spans[0]);
+					removeEvnListener(evtElement, "change", inputUpdatedHandler);
+				}
+
+				function addEvnListener(element, eventName, handler) {
+					if (element.addEventListener) {
+						// on target element maybe there is handler which stopped the bubbling of event: event.stopPropagation()
+						// in this case our handler will be not fired, therefore useCapture = true.
+						element.addEventListener(eventName, handler, true);
+					} else if (element.attachEvent) {
+						element.attachEvent("on" + eventName, handler);
+					}
+				}
+
+				function removeEvnListener(element, eventName, handler) {
+					if (element.removeEventListener) {
+						// on target element maybe there is handler which stopped the bubbling of event: event.stopPropagation()
+						// in this case our handler will be not fired, therefore useCapture = true.
+						element.removeEventListener(eventName, handler, true);
+					} else if (element.detachEvent) {
+						element.detachEvent("on" + eventName, handler);
+					}
+				}
+			</xxforms:script>
+		</xforms:action>
+	</xforms:submission>
+
+  	<xforms:action ev:event="xforms-ready">
+		<xforms:refresh/>
+		<xxforms:script>
+			setTimeout(function() { ORBEON.xforms.Controls.setFocus("name-input"); }, 100);
+		</xxforms:script>
+	</xforms:action>
+  </xforms:model>
+  
+
+  <xhtml:style type="text/css">
+  .xforms-textarea-appearance-xxforms-autosize, .xforms-textarea-appearance-xxforms-autosize textarea { width:20em; margin-bottom:2px; }
+  .xforms-input input { font-size:12px; width: 86%; margin-bottom:2px; float:left; }
+  .xforms-textarea, .xforms-textarea textarea { font-size:12px; float:left; width:86%; height:60px; resize: none; }
+  .xforms-select1-appearance-minimal { width:86%; *width:89%; float:left; }
+  .xforms-loading-loading { opacity:0.01; filter:alpha(opacity=1); display:none; visibility:hidden; }
+  .xforms-alert-active { float:right; }
+  .xforms-error-panel { overflow: scroll; height:100px }
+ /* .label { display:-moz-inline-box; display:inline-block; width:expression('9em'); min-width:9em; } */
+
+  .table { margin-bottom:10px; width:100%; padding-top:0px; padding-left:0px; padding-right:0px; }
+  .table td { vertical-align:middle; padding-right:0px; }
+  .table .xforms-submit img { vertical-align:middle; }
+  .table .xforms-trigger img, .books-action-table .xforms-submit img { margin-right:5px; vertical-align:middle; }
+  .table .xforms-trigger span, .books-action-table .xforms-submit span { vertical-align:middle; }
+
+  .table tr.row1 td { background-color:#D6DBDE; }
+  .table tr.row2 td { background-color:#E6E9EB; }
+  .table td.td1 { width:35%; }
+  .table td.td2 { width:65%; }
+
+  body      { font-family:arial; font-size:12px; padding:0px; margin:1px; *margin-top:-2px; _margin-top:-14px; }
+  a:link    { color:#0000FF; }
+  a:visited { color:#0000FF; }
+  a:hover   { color:#0000FF; }
+  a:active  { color:#0000FF; }
+ 
+  .xforms-trigger {
+    background: url("https://mediav3.inq.com/media/sites/10003715/flash/BestBrands_Prechat_Routing/button_overlay.png") repeat-x scroll 0 0 #ADE400;
+    border-radius: 5px 5px 5px 5px;
+    border-style: none;
+    bottom: 15px;
+    right: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font: bold 13px "Helvetica Neue",Helvetica,Arial,clean,sans-serif !important;
+    overflow: visible;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    _background-image: none;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    _zoom: 1;
+  }
+   
+  .xforms-trigger:hover, .xforms-trigger:focus {
+    background-position: 0 -50px;
+    color: black;
+  }
+   
+  .xforms-trigger:active {
+    background-position: 0 -100px;
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
+    -webkit-box-shadow: none;
+  }
+  </xhtml:style>
+</xhtml:head>
+
+
+<!-- Try to add attribute into input -->
+<xhtml:body class="body">
+  <xhtml:table class="table">
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Name 2:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='name']/answer" incremental="flase" xxforms:maxlength="50" id="name-input">
+          <xforms:label>Please enter your first name:</xforms:label>
+          <xforms:alert>Name is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+  
+    <xhtml:tr class="row2">
+      <xhtml:td class="td1">Account Number:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='accountNumber']/answer" incremental="true" xxforms:maxlength="50">
+          <xforms:label />
+          <xforms:alert>Account number is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+    
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Phone Number:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='phoneNumber']/answer" incremental="true" xxforms:maxlength="50">
+          <xforms:label />
+          <xforms:alert>Phone number is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+  
+    <xhtml:tr class="row2">
+      <xhtml:td class="td1">Preferred Contact Method:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:select1 ref="instance('decisionTree')/question_answer[@id='contactMethod']/answer" incremental="true" xxforms:maxlength="50" id="tc-select">
+          <xforms:label>Please select:</xforms:label>
+          <xforms:item>
+            <xforms:label>Select one...</xforms:label>
+            <xforms:value/>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>Chat</xforms:label>
+            <xforms:value>Chat</xforms:value>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>Call</xforms:label>
+            <xforms:value>Call</xforms:value>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>Whichever is fastest</xforms:label>
+            <xforms:value>Fastest</xforms:value>
+          </xforms:item>
+          <xforms:alert>Phone model is required.</xforms:alert>
+        </xforms:select1>
+      </xhtml:td>
+    </xhtml:tr>
+  
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Comments:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:textarea ref="instance('decisionTree')/question_answer[@id='comments']/answer" xxforms:maxlength="512">
+          <xforms:label />
+        </xforms:textarea>
+      </xhtml:td>
+    </xhtml:tr>
+  </xhtml:table>
+  
+  <xhtml:div style="margin-left: 10px;">
+    <xforms:group>
+      <xforms:trigger>
+        <xforms:label>Submit</xforms:label>
+        <xforms:action ev:event="DOMActivate">
+          <xforms:setvalue ref="instance('decisionTree')/triggeredEvent">submit</xforms:setvalue>
+          <xforms:send submission="view"/>
+        </xforms:action>
+      </xforms:trigger>
+    </xforms:group>
+  </xhtml:div>
+</xhtml:body>
+</xhtml:html>
