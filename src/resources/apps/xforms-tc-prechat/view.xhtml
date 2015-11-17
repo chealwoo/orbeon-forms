@@ -34,14 +34,15 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
     
     <xforms:bind nodeset="instance('decisionTree')">
       <xforms:bind nodeset="question_answer[@id='name']/answer" required="true()"/>
-      <xforms:bind nodeset="question_answer[@id='accountNumber']/answer" required="true()"/>
-      <xforms:bind nodeset="question_answer[@id='phoneNumber']/answer" required="true()"/>
+      <!-- xforms:bind nodeset="question_answer[@id='accountNumber']/answer" required="true()"/ -->
+      <!-- xforms:bind nodeset="question_answer[@id='phoneNumber']/answer" required="true()"/ -->
       <xforms:bind nodeset="question_answer[@id='contactMethod']/answer" required="true()"/>
     </xforms:bind>
     
     <xforms:submission id="view" action="/inq/view" ref="instance('decisionTree')" method="post" replace="all">
 		<xforms:action ev:event="xforms-submit-error">
 			<xxforms:script>
+			<![CDATA[
 				var fElement, fELabel, aSpan; 
 				fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0)
 				// fElement = ORBEON.util.Dom.getElementById("name-input");
@@ -77,9 +78,11 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 					}
 					var evtLabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById(elId), "label");
 					var spans = evtLabel.getElementsByTagName('span');
+					for(i=0;i<=spans.length;i++) {
 					/*spans.foreach(function(el, ind, array) {
 						evtLabel.removeChild(el);
 					});*/
+					}
 					evtLabel.removeChild(spans[0]);
 					removeEvnListener(evtElement, "change", inputUpdatedHandler);
 				}
@@ -103,6 +106,7 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 						element.detachEvent("on" + eventName, handler);
 					}
 				}
+]]>
 			</xxforms:script>
 		</xforms:action>
 	</xforms:submission>
@@ -188,7 +192,7 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
     <xhtml:tr class="row1">
       <xhtml:td class="td1">Name 2:</xhtml:td>
       <xhtml:td class="td2">
-        <xforms:input ref="instance('decisionTree')/question_answer[@id='name']/answer" incremental="flase" xxforms:maxlength="50" id="name-input">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='name']/answer" incremental="true" xxforms:maxlength="50" id="name-input">
           <xforms:label>Please enter your first name:</xforms:label>
           <xforms:alert>Name is required.</xforms:alert>
         </xforms:input>
