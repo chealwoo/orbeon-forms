@@ -45,11 +45,12 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 			<![CDATA[
 				var fElement, fELabel, aSpan; 
 				fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0)
-				// fElement = ORBEON.util.Dom.getElementById("name-input");
+				// fElement = ORBEON.util.Dom.getElementById("name-input");  -- returns span element has input.
 				if (fElement.value === "") {
 					fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById("name-input"), "label");
 					aSpan = document.createElement('span');
 					aSpan.innerHTML = "This is required"
+					// check if span is already there
 					fELabel.appendChild(aSpan);
 					fElement.focus();
 					addEvnListener(fElement, "change", inputUpdatedHandler);
@@ -89,8 +90,6 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 
 				function addEvnListener(element, eventName, handler) {
 					if (element.addEventListener) {
-						// on target element maybe there is handler which stopped the bubbling of event: event.stopPropagation()
-						// in this case our handler will be not fired, therefore useCapture = true.
 						element.addEventListener(eventName, handler, true);
 					} else if (element.attachEvent) {
 						element.attachEvent("on" + eventName, handler);
@@ -99,8 +98,6 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 
 				function removeEvnListener(element, eventName, handler) {
 					if (element.removeEventListener) {
-						// on target element maybe there is handler which stopped the bubbling of event: event.stopPropagation()
-						// in this case our handler will be not fired, therefore useCapture = true.
 						element.removeEventListener(eventName, handler, true);
 					} else if (element.detachEvent) {
 						element.detachEvent("on" + eventName, handler);
@@ -112,7 +109,7 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
 	</xforms:submission>
 
   	<xforms:action ev:event="xforms-ready">
-		<xforms:refresh/>
+		<!-- xforms:refresh/ -->
 		<xxforms:script>
 			setTimeout(function() { ORBEON.xforms.Controls.setFocus("name-input"); }, 100);
 		</xxforms:script>
@@ -257,7 +254,7 @@ xmlns:xforms="http://www.w3.org/2002/xforms">
   
   <xhtml:div style="margin-left: 10px;">
     <xforms:group>
-      <xforms:trigger>
+      <xforms:trigger id="tc-submit">
         <xforms:label>Submit</xforms:label>
         <xforms:action ev:event="DOMActivate">
           <xforms:setvalue ref="instance('decisionTree')/triggeredEvent">submit</xforms:setvalue>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xhtml:html xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xforms="http://www.w3.org/2002/xforms">
+<xhtml:head>
+  <xhtml:title>BestBrands Prechat Questions</xhtml:title>
+  
+  <xforms:model id="main-model">
+    <xforms:instance id="decisionTree">
+      <decisionTree xmlns="">
+			<question_answer id="name">
+			  <question>Name: </question>
+			  <answer />
+			</question_answer>
+			<question_answer id="accountNumber">
+			  <question>Account Number: </question>
+			  <answer />
+			</question_answer>
+			<question_answer id="phoneNumber">
+			  <question>Phone Number: </question>
+			  <answer />
+			</question_answer>
+			<question_answer id="phoneModel">
+			  <question>Phone Model: </question>
+			  <answer />
+			</question_answer>
+			<question_answer id="comments">
+			  <question>Comments: </question>  
+			  <answer />
+			</question_answer>
+      </decisionTree>
+    </xforms:instance>
+    
+    <xforms:bind nodeset="instance('decisionTree')">
+		<xforms:bind nodeset="question_answer[@id='name']/answer" required="true()"/>
+		<xforms:bind nodeset="question_answer[@id='phoneModel']/answer" required="true()"/>
+    </xforms:bind>
+    
+   <xforms:submission id="view" action="/inq/view" ref="instance('decisionTree')" method="post" replace="all">
+		<xforms:action ev:event="xforms-submit-error">
+			<xxforms:script>
+			<![CDATA[
+				var fElement, fELabel, aSpan; 
+				fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0)
+				// fElement = ORBEON.util.Dom.getElementById("name-input");  -- returns span element has input.
+				if (fElement.value === "") {
+					fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById("name-input"), "label");
+					aSpan = document.createElement('span');
+					aSpan.innerHTML = "This is required"
+					// check if span is already there
+					fELabel.appendChild(aSpan);					
+					setTimeout(function() {
+						fElabel.style.display = "none";
+						fElabel.style.display = "";
+						fElement.focus();
+					}, 1000);
+
+					addEvnListener(fElement, "change", inputUpdatedHandler);
+					return;
+				}
+
+				// fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("tc-select"), 0);
+				fElement = ORBEON.util.Dom.getElementById('tc-select');
+				if (fElement.value === "") {
+					fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById('tc-select'), "label");
+					aSpan = document.createElement('span');
+					aSpan.innerHTML = "This is required"
+					fELabel.appendChild(aSpan);
+					// fElement.parentElement.focus();
+					fElement.focus();
+					addEvnListener(fElement, "change", inputUpdatedHandler);
+					return;
+				}
+
+				function inputUpdatedHandler(evt) {
+					var i;
+					var evtElement = evt.target;
+					var elId = evtElement.id;
+					if (elId.indexOf('$') != -1) {
+						elId = evtElement.id.substring( 0, elId.indexOf('$') );
+					}
+					var evtLabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById(elId), "label");
+					var spans = evtLabel.getElementsByTagName('span');
+					for(i=0;i<=spans.length;i++) {
+					/*spans.foreach(function(el, ind, array) {
+						evtLabel.removeChild(el);
+					});*/
+					}
+					evtLabel.removeChild(spans[0]);
+					removeEvnListener(evtElement, "change", inputUpdatedHandler);
+				}
+
+				function addEvnListener(element, eventName, handler) {
+					if (element.addEventListener) {
+						element.addEventListener(eventName, handler, true);
+					} else if (element.attachEvent) {
+						element.attachEvent("on" + eventName, handler);
+					}
+				}
+
+				function removeEvnListener(element, eventName, handler) {
+					if (element.removeEventListener) {
+						element.removeEventListener(eventName, handler, true);
+					} else if (element.detachEvent) {
+						element.detachEvent("on" + eventName, handler);
+					}
+				}
+]]>
+			</xxforms:script>
+		</xforms:action>
+	</xforms:submission>
+
+  	<xforms:action ev:event="xforms-ready">
+		<xforms:refresh/>
+		<xxforms:script>
+<![CDATA[
+	var startfElement; 
+	startfElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0);
+	startfElement.setAttribute('alt', "this is alt");
+	setTimeout(function() { startfElement.focus; }, 1000);
+
+
+var tcSubmit = 
+
+	var fElement, fELabel, aSpan; 
+	fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("name-input"), 0)
+	// fElement = ORBEON.util.Dom.getElementById("name-input");  -- returns span element has input.
+	if (fElement.value === "") {
+		fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById("name-input"), "label");
+		aSpan = document.createElement('span');
+		aSpan.innerHTML = "This is required"
+		// check if span is already there
+		fELabel.appendChild(aSpan);					
+		setTimeout(function() {
+			fElabel.style.display = "none";
+			fElabel.style.display = "";
+			fElement.focus();
+		}, 1000);
+
+		addEvnListener(fElement, "change", inputUpdatedHandler);
+		return;
+	}
+
+	// fElement = ORBEON.util.Dom.getChildElementByIndex(ORBEON.util.Dom.getElementById("tc-select"), 0);
+	fElement = ORBEON.util.Dom.getElementById('tc-select');
+	if (fElement.value === "") {
+		fELabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById('tc-select'), "label");
+		aSpan = document.createElement('span');
+		aSpan.innerHTML = "This is required"
+		fELabel.appendChild(aSpan);
+		// fElement.parentElement.focus();
+		fElement.focus();
+		addEvnListener(fElement, "change", inputUpdatedHandler);
+		return;
+	}
+
+	function inputUpdatedHandler(evt) {
+		var i;
+		var evtElement = evt.target;
+		var elId = evtElement.id;
+		if (elId.indexOf('$') != -1) {
+			elId = evtElement.id.substring( 0, elId.indexOf('$') );
+		}
+		var evtLabel = ORBEON.xforms.Controls._getControlLHHA(ORBEON.util.Dom.getElementById(elId), "label");
+		var spans = evtLabel.getElementsByTagName('span');
+		for(i=0;i<=spans.length;i++) {
+		/*spans.foreach(function(el, ind, array) {
+			evtLabel.removeChild(el);
+		});*/
+		}
+		evtLabel.removeChild(spans[0]);
+		removeEvnListener(evtElement, "change", inputUpdatedHandler);
+	}
+
+	function addEvnListener(element, eventName, handler) {
+		if (element.addEventListener) {
+			element.addEventListener(eventName, handler, true);
+		} else if (element.attachEvent) {
+			element.attachEvent("on" + eventName, handler);
+		}
+	}
+
+	function removeEvnListener(element, eventName, handler) {
+		if (element.removeEventListener) {
+			element.removeEventListener(eventName, handler, true);
+		} else if (element.detachEvent) {
+			element.detachEvent("on" + eventName, handler);
+		}
+	}
+]]>
+		</xxforms:script>
+	</xforms:action>
+  </xforms:model>
+  
+</xhtml:head>
+
+<xhtml:body class="body" onload="init();">
+  <xhtml:table class="table">
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Name 4:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='name']/answer" incremental="false" xxforms:maxlength="50" id="name-input">
+          <xforms:label>Please 1:</xforms:label>
+          <xforms:alert>Name is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+	
+	<xhtml:tr class="row2">
+      <xhtml:td class="td1">Account #:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='accountNumber']/answer" incremental="true" xxforms:maxlength="50">
+          <xforms:label />
+          <xforms:alert>Account number is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+    
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Phone #:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:input ref="instance('decisionTree')/question_answer[@id='phoneNumber']/answer" incremental="true" xxforms:maxlength="50">
+          <xforms:label />
+          <xforms:alert>Phone number is required.</xforms:alert>
+        </xforms:input>
+      </xhtml:td>
+    </xhtml:tr>
+	
+	<xhtml:tr class="row2">
+      <xhtml:td class="td1">Phone:</xhtml:td>
+      <xhtml:td class="td2">
+    <xforms:select1 ref="instance('decisionTree')/question_answer[@id='phoneModel']/answer" incremental="true" xxforms:maxlength="50" id="tc-select">
+          <xforms:label>Please select:</xforms:label>
+          <xforms:item>
+            <xforms:label>Select one...</xforms:label>
+            <xforms:value/>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>iPhone 4s</xforms:label>
+            <xforms:value>iPhone 4s</xforms:value>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>Nokia Lumina 900</xforms:label>
+            <xforms:value>Nokia Lumina 900</xforms:value>
+          </xforms:item>
+          <xforms:item>
+            <xforms:label>Samsung Galaxy</xforms:label>
+            <xforms:value>Samsung Galaxy</xforms:value>
+          </xforms:item>
+		  <xforms:item>
+            <xforms:label>Sharp FX Plus</xforms:label>
+            <xforms:value>Sharp FX Plus</xforms:value>
+          </xforms:item>
+          <xforms:alert>Phone model is required.</xforms:alert>
+        </xforms:select1>
+      </xhtml:td>
+    </xhtml:tr>
+  
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Comments:</xhtml:td>
+      <xhtml:td class="td2">
+        <xforms:textarea ref="instance('decisionTree')/question_answer[@id='comments']/answer" xxforms:maxlength="512">
+          <xforms:label />
+        </xforms:textarea>
+      </xhtml:td>
+    </xhtml:tr>
+
+    <xhtml:tr class="row1">
+      <xhtml:td class="td1">Submit</xhtml:td>
+      <xhtml:td class="td2">
+		  <xhtml:div style="margin-left: 10px;">
+			<xforms:group>
+			  <xforms:trigger id="tc-submit">
+				<xforms:label>Submit</xforms:label>
+				<xforms:action ev:event="DOMActivate">
+				  <xforms:setvalue ref="instance('decisionTree')/triggeredEvent">submit</xforms:setvalue>
+				  <xforms:send submission="view"/>
+				</xforms:action>
+			  </xforms:trigger>
+			</xforms:group>
+		  </xhtml:div>
+      </xhtml:td>
+    </xhtml:tr>
+
+  </xhtml:table>
+  
+
+</xhtml:body>
+</xhtml:html>
